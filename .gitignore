@@ -1,0 +1,4 @@
+# Godot generated/imported state is machine-local and should not be committed.
+.godot/
+export.cfg
+export_presets.cfg
