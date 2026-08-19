@@ -14,6 +14,7 @@ func _ready() -> void:
 	_build_roads()
 	_build_buildings()
 	_build_landmarks()
+	_build_ambience()
 
 func _mat(color: Color, emission := Color.BLACK, energy := 0.0) -> StandardMaterial3D:
 	var key := str(color) + str(emission)
@@ -99,6 +100,16 @@ func _build_landmarks() -> void:
 	for level in range(5):
 		var size := 14.0 - level * 2.2
 		_box(self, Vector3(size, 2.5, size), Vector3(0, 1.5 + level * 2.5, 0), Color("#2f6e86"))
-	_box(self, Vector3(1.6, 34, 1.6), Vector3(0, 21, 0), Color("#a8eaff"), Color("#a8eaff"))
+	var tower := _box(self, Vector3(1.6, 34, 1.6), Vector3(0, 21, 0), Color("#a8eaff"), Color("#a8eaff"))
+	var tower_material := tower.material_override as StandardMaterial3D
+	tower_material.albedo_texture = load("res://assets/city_surface.png")
+	tower_material.emission_texture = load("res://assets/window_glow.png")
 	_box(self, Vector3(10, 0.18, 0.3), Vector3(0, 34, 0), Color("#e6bd75"), Color("#e6bd75"))
 	_box(self, Vector3(0.3, 0.18, 10), Vector3(0, 34, 0), Color("#e6bd75"), Color("#e6bd75"))
+
+func _build_ambience() -> void:
+	var ambience := AudioStreamPlayer.new()
+	ambience.stream = load("res://assets/aurora_ambience.wav")
+	ambience.volume_db = -22.0
+	ambience.autoplay = true
+	add_child(ambience)
