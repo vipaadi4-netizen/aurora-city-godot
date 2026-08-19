@@ -6,6 +6,8 @@ extends Node
 const City := preload("res://scripts/city.gd")
 const Player := preload("res://scripts/player.gd")
 const TouchJoystick := preload("res://scripts/touch_joystick.gd")
+const CityScene := preload("res://scenes/city.tscn")
+const PlayerScene := preload("res://scenes/player.tscn")
 
 var world: Node3D
 var ui: CanvasLayer
@@ -153,12 +155,12 @@ func _start_game() -> void:
 	world = Node3D.new()
 	world.name = "CityWorld"
 	add_child(world)
-	var city := City.new()
+	var city := CityScene.instantiate()
 	world.add_child(city)
 	loading_bar.value = 55
 	status_label.text = "Wiring the explorer..."
 	await get_tree().create_timer(0.18).timeout
-	var player := Player.new()
+	var player := PlayerScene.instantiate()
 	player.position = Vector3(0, 1.3, 12)
 	world.add_child(player)
 	loading_bar.value = 88
